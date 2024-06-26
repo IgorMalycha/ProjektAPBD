@@ -1,4 +1,5 @@
 ﻿using ProjektAPBD.DTOs;
+using ProjektAPBD.DTOs.AgreementDTOs;
 
 namespace ProjektAPBD.Services;
 
@@ -9,5 +10,4 @@ public interface IClientService
     Task UpdateIdividualClient(int individualClientid, UpdateIndividualClientDTO updateIndividualClientDto);
     Task UpdateCompanyClient(int companyClientid, UpdateCompanyClientDTO updateCompanyClientDto);
     Task AddCompanyClient(AddCompanyClientDTO addCompanyClientDto);
-
 }

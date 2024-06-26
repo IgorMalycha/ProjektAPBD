@@ -70,4 +70,13 @@ public class ClientsRepository : IClientsRepository
     {
         return await _databaseContext.CompanyClients.FirstOrDefaultAsync(e => e.KRSNumber == krsNumber);
     }
+
+    public async Task<bool> IsReturningClient(int clientid, bool isCompanyClient)
+    {
+        if (isCompanyClient)
+        {
+            return await _databaseContext.Agreements.Where(e => e.Singed==true).AnyAsync(e => e.CompanyClient.CompanyId == clientid);
+        }
+        return await _databaseContext.Agreements.Where(e => e.Singed==true).AnyAsync(e => e.IndividualClient.IndividualPersonId == clientid);
+    }
 }

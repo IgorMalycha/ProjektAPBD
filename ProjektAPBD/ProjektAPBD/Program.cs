@@ -14,6 +14,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
+builder.Services.AddScoped<IAgreementService, AgreementService>();
+builder.Services.AddScoped<IAgreementsRepository, AgreementsRepository>();
 
 var app = builder.Build();
 

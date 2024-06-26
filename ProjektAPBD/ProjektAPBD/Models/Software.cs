@@ -14,6 +14,7 @@ public class Software
     [MaxLength(300)]
     public string Description { get; set; }
     public string Version { get; set; }
+    public decimal Price { get; set; }
     public string SoftwareCategoryId { get; set; }
     public bool IsSubscription { get; set; }
     public bool IsBoughtInOneTransaction { get; set; }
@@ -22,5 +23,6 @@ public class Software
     public SoftwareCategory SoftwareCategory { get; set; }
 
     public ICollection<Agreement> Agreements { get; set; } = new HashSet<Agreement>();
-    
+    public ICollection<SoftwareDiscount> SoftwareDiscounts { get; set; } = new HashSet<SoftwareDiscount>();
+
 }

@@ -15,6 +15,11 @@ public class DatabaseContext : DbContext
     
     public DbSet<CompanyClient> CompanyClients { get; set; }
     public DbSet<IndividualClient> IndividualClients { get; set; }
+    public DbSet<SoftwareCategory> SoftwareCategories { get; set; }
+    public DbSet<Discount> Discounts { get; set; }
+    public DbSet<Software> Softwares { get; set; }
+    public DbSet<Agreement> Agreements { get; set; }
+    public DbSet<SoftwareDiscount> SoftwareDiscounts { get; set; }
     
     
     

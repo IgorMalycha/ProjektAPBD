@@ -16,4 +16,5 @@ public interface IClientsRepository
     Task UpdateCompanyClient(CompanyClient companyClientid, UpdateCompanyClientDTO updateCompanyClientDto);
     Task<CompanyClient?> GetCompanyClientById(int companyClientid);
     Task<CompanyClient?> GetCompanyClientByKRS(string krsNumber);
+    Task<bool> IsReturningClient(int clientid, bool isCompanyClient);
 }
