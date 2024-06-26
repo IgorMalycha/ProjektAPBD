@@ -18,8 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Context\" />
-      <Folder Include="DTOs\" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>
