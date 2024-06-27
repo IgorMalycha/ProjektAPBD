@@ -4,10 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ProjektAPBD.Models;
 
 
-public class CompanyClient : Client
+public class CompanyClient
 {
     [Key]
     public int CompanyId { get; set; }
+    [MaxLength(100)]
+    public string Address { get; set; }
+    [EmailAddress]
+    public string Email { get; set; }
+    [Phone]
+    public int PhoneNumber { get; set; }
     [MaxLength(30)]
     public string CompanyName { get; set; }
     private string krsNumber;

@@ -50,7 +50,7 @@ public class AgreementService : IAgreementService
                 BeginDate = addAgreementDto.BeginDate,
                 EndDate = addAgreementDto.EndDate,
                 ActualizationYears = addAgreementDto.actualizationYears,
-                Singed = false,
+                Signed = false,
                 IsPaid = false,
                 Price = priceDiscountsActualizationYearsIfReturningClient,
                 SoftwareVersion = software.Version,
@@ -65,7 +65,7 @@ public class AgreementService : IAgreementService
                 BeginDate = addAgreementDto.BeginDate,
                 EndDate = addAgreementDto.EndDate,
                 ActualizationYears = addAgreementDto.actualizationYears,
-                Singed = false,
+                Signed = false,
                 IsPaid = false,
                 Price = priceDiscountsActualizationYearsIfReturningClient,
                 SoftwareVersion = software.Version,
@@ -75,6 +75,54 @@ public class AgreementService : IAgreementService
         }
 
         await _agreementsRepository.AddNewAgreement(newAgreement);
+    }
+
+    public async Task PayForAgreemnt(int agreementId, decimal paymentValue)
+    {
+        await DoesAgreementExist(agreementId);
+        
+        Agreement agreement = await _agreementsRepository.GetAgreementById(agreementId);
+        
+        await IsSigned(agreement.Signed);
+
+        await IsPaymentInTime(agreement);
+
+        await _agreementsRepository.AddPayment(agreement, paymentValue);
+
+        await IsWholePricePaid(agreement);
+    }
+
+    private async Task IsWholePricePaid(Agreement agreement)
+    {
+        if (agreement.Payment == agreement.Price)
+        {
+            await _agreementsRepository.SignAgreement(agreement);
+        }
+    }
+
+    private async Task IsPaymentInTime(Agreement agreement)
+    {
+        if (agreement.EndDate < DateTime.Today)
+        {
+            await _agreementsRepository.CancelAgreement(agreement);
+            throw new InvalidOperationException($"Payment is after ending date of agreement : {agreement.EndDate}");
+        }
+    }
+
+    private async Task IsSigned(bool signed)
+    {
+        if (signed)
+        {
+            throw new ArgumentException("Agreement is already fully paid");
+        }
+    }
+
+    private async Task DoesAgreementExist(int agreementId)
+    {
+        if (!await _agreementsRepository.DoesAgreemntExistById(agreementId))
+        {
+            throw new ArgumentException($"Agreement with Id: {agreementId} does not exist");
+        }
     }
 
     private async Task<decimal> AddDiscountIfReturningClient(int clientid, bool isCompanyClient, decimal price)

@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <Folder Include="Migrations\" />
+      <Folder Include="SecurityHelpers\" />
     </ItemGroup>
 
 </Project>

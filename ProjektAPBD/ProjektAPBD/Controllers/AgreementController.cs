@@ -25,4 +25,12 @@ public class AgreementController : ControllerBase
 
         return Created();
     }
+
+    [HttpPut("{agreementId}/payment")]
+    public async Task<IActionResult> PaymentForAgreement(int agreemntId, [FromQuery]decimal paymentValue)
+    {
+        await _agreementService.PayForAgreemnt(agreemntId ,paymentValue);
+
+        return NoContent();
+    }
 }

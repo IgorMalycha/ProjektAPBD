@@ -8,7 +8,6 @@ public class SoftwareCategory
     public int SoftwareCategoryId { get; set; }
     [MaxLength(20)]
     public string Type { get; set; }
-    //public int CostForYear { get; set; }
 
     public ICollection<Software> Softwares { get; set; }
 }

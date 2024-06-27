@@ -6,7 +6,7 @@ namespace ProjektAPBD.Models;
 
 public class Software
 {
-    //do dopracowania i wyjaśnienia
+    
     [Key] 
     public int SoftwareId { get; set; }
     [MaxLength(30)]

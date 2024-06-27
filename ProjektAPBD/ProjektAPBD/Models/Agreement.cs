@@ -10,13 +10,13 @@ public class Agreement
     public DateTime BeginDate { get; set; }
     private DateTime endDate;
     private int actulizationYears;
-    public bool Singed { get; set; }
+    public bool Signed { get; set; }
     public bool IsPaid { get; set; }
     public decimal Price { get; set; }
     public string SoftwareVersion { get; set; }
     
     public int SoftwareId { get; set; }
-    public int PaymentId { get; set; }
+    public decimal Payment { get; set; }
     
     public int? CompanyClientId { get; set; }
     public int? IndividualClientId { get; set; }
@@ -27,8 +27,7 @@ public class Agreement
     public CompanyClient? CompanyClient { get; set; }
     [ForeignKey(nameof(IndividualClientId))]
     public IndividualClient? IndividualClient { get; set; }
-    [ForeignKey(nameof(PaymentId))]
-    public Payment Payment { get; set; }
+    
     
     public DateTime EndDate
     {

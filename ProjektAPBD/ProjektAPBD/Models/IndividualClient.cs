@@ -3,10 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjektAPBD.Models;
 
-public class IndividualClient : Client
+public class IndividualClient
 {
     [Key] 
     public int IndividualPersonId { get; set; }
+    [MaxLength(100)]
+    public string Address { get; set; }
+    [EmailAddress]
+    public string Email { get; set; }
+    [Phone]
+    public int PhoneNumber { get; set; }
     [MaxLength(30)]
     public string FirstName { get; set; }
     [MaxLength(50)]

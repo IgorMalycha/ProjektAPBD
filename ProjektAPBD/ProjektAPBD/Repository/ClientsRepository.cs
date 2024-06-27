@@ -75,8 +75,8 @@ public class ClientsRepository : IClientsRepository
     {
         if (isCompanyClient)
         {
-            return await _databaseContext.Agreements.Where(e => e.Singed==true).AnyAsync(e => e.CompanyClient.CompanyId == clientid);
+            return await _databaseContext.Agreements.Where(e => e.Signed==true).AnyAsync(e => e.CompanyClient.CompanyId == clientid);
         }
-        return await _databaseContext.Agreements.Where(e => e.Singed==true).AnyAsync(e => e.IndividualClient.IndividualPersonId == clientid);
+        return await _databaseContext.Agreements.Where(e => e.Signed==true).AnyAsync(e => e.IndividualClient.IndividualPersonId == clientid);
     }
 }
