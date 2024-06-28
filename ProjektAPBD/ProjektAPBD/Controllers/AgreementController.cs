@@ -19,7 +19,7 @@ public class AgreementController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddNewAgreement(AddAgreementDTO addAgreementDto)
     {
-        //output dodac
+        //output 
         await _agreementService.MakeNewAgreement(addAgreementDto);
             
 

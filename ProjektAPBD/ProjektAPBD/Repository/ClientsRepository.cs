@@ -79,4 +79,14 @@ public class ClientsRepository : IClientsRepository
         }
         return await _databaseContext.Agreements.Where(e => e.Signed==true).AnyAsync(e => e.IndividualClient.IndividualPersonId == clientid);
     }
+
+    public async Task<bool> DoesCompanyClientExist(int clientid)
+    {
+        return await _databaseContext.CompanyClients.AnyAsync(e => e.CompanyId == clientid);
+    }
+
+    public async Task<bool> DoesIndividualClientExist(int clientid)
+    {
+        return await _databaseContext.IndividualClients.AnyAsync(e => e.IndividualPersonId == clientid);
+    }
 }

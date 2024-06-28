@@ -15,7 +15,7 @@ public class Software
     public string Description { get; set; }
     public string Version { get; set; }
     public decimal Price { get; set; }
-    public string SoftwareCategoryId { get; set; }
+    public int SoftwareCategoryId { get; set; }
     public bool IsSubscription { get; set; }
     public bool IsBoughtInOneTransaction { get; set; }
 

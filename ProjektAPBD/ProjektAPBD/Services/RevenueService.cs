@@ -6,9 +6,11 @@ namespace ProjektAPBD.Services;
 public class RevenueService : IRevenueService
 {
     private readonly IAgreementsRepository _agreementsRepository;
-    public RevenueService(IAgreementsRepository agreementsRepository)
+    private readonly ISoftwareRepository _softwareRepository;
+    public RevenueService(IAgreementsRepository agreementsRepository, ISoftwareRepository softwareRepository)
     {
         _agreementsRepository = agreementsRepository;
+        _softwareRepository = softwareRepository;
     }
 
     public async Task<CompanyRevenueDTO> GetCompanyRevenue(bool estimatedRevenue)
@@ -23,6 +25,7 @@ public class RevenueService : IRevenueService
     
     public async Task<ProductRevenueDTO> GetProductRevenue(int productId, bool estimatedRevenue)
     {
+        await DoesSoftwareExist(productId);
         decimal revenue = await ProductRevenue(productId, estimatedRevenue);
 
         return new ProductRevenueDTO()
@@ -31,7 +34,15 @@ public class RevenueService : IRevenueService
             Value = revenue
         };
     }
-    
+
+    private async Task DoesSoftwareExist(int productId)
+    {
+        if (!await _softwareRepository.DoesSoftwareExistById(productId))
+        {
+            throw new ArgumentException($"Software with id: {productId} does not exist");
+        }
+    }
+
     private async Task<decimal> CompanyRevenue(bool estimatedRevenue)
     {
         if (estimatedRevenue)

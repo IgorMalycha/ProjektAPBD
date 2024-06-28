@@ -47,7 +47,7 @@ public class ClientController : ControllerBase
         return Created();
     }
     
-    [HttpPut("individualClient/{companyClientid:int}")]
+    [HttpPut("companyClient/{companyClientid:int}")]
     public async Task<IActionResult> UpdateCompanyClient(int companyClientid, [FromBody] UpdateCompanyClientDTO updateCompanyClientDto)
     {
         await _clientService.UpdateCompanyClient(companyClientid, updateCompanyClientDto);

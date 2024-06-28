@@ -12,10 +12,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DatabaseContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
 builder.Services.AddScoped<IClientService, ClientService>();
-builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 builder.Services.AddScoped<IAgreementService, AgreementService>();
+builder.Services.AddScoped<IRevenueService, RevenueService>();
+
+builder.Services.AddScoped<IClientsRepository, ClientsRepository>();
 builder.Services.AddScoped<IAgreementsRepository, AgreementsRepository>();
+builder.Services.AddScoped<IDiscountsRepository, DiscountsRepository>();
+builder.Services.AddScoped<ISoftwareRepository, SoftwaresRepository>();
+
+
 
 var app = builder.Build();
 

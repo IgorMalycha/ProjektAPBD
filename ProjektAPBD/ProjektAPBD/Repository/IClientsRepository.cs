@@ -17,4 +17,6 @@ public interface IClientsRepository
     Task<CompanyClient?> GetCompanyClientById(int companyClientid);
     Task<CompanyClient?> GetCompanyClientByKRS(string krsNumber);
     Task<bool> IsReturningClient(int clientid, bool isCompanyClient);
+    Task<bool> DoesCompanyClientExist(int clientid);
+    Task<bool> DoesIndividualClientExist(int clientid);
 }

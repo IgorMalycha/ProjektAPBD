@@ -26,4 +26,9 @@ public class SoftwaresRepository : ISoftwareRepository
     {
         return await _databaseContext.Softwares.FirstOrDefaultAsync(e => e.SoftwareId == softwareId);
     }
+
+    public async Task<bool> DoesSoftwareExistById(int softwareId)
+    {
+        return await _databaseContext.Softwares.AnyAsync(e => e.SoftwareId == softwareId);
+    }
 }

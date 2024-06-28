@@ -7,25 +7,22 @@ namespace ProjektAPBD.Services;
 public class AgreementService : IAgreementService
 {
     private readonly IAgreementsRepository _agreementsRepository;
-    private readonly IDiscountsRepository _discountsRepository;
     private readonly ISoftwareRepository _softwareRepository;
     private readonly IClientsRepository _clientsRepository;
 
-    public AgreementService(IAgreementsRepository agreementsRepository, IDiscountsRepository discountsRepository,
-        ISoftwareRepository softwareRepository, IClientsRepository clientsRepository)
+    public AgreementService(IAgreementsRepository agreementsRepository, ISoftwareRepository softwareRepository, IClientsRepository clientsRepository)
     {
         _agreementsRepository = agreementsRepository;
-        _discountsRepository = discountsRepository;
         _softwareRepository = softwareRepository;
         _clientsRepository = clientsRepository;
     }
 
     public async Task MakeNewAgreement(AddAgreementDTO addAgreementDto)
     { 
-        //metoda obliczająca 
-        //doesSoftwareExist
-        //doesClientExist ... add 
-        //check if its software to pay in one trancasction not subsritpion
+        
+        await DoesSoftwareExist(addAgreementDto.SoftwareId);
+        
+        await DoesClientExist(addAgreementDto.IsCompanyClient, addAgreementDto.Clientid);
         
         List<Discount> availableDiscounts = await _softwareRepository.GetAvailableDiscountsBySoftwareId(addAgreementDto.SoftwareId);
         
@@ -75,6 +72,32 @@ public class AgreementService : IAgreementService
         }
 
         await _agreementsRepository.AddNewAgreement(newAgreement);
+    }
+
+    private async Task DoesClientExist(bool isCompanyClient, int clientid)
+    {
+        if (isCompanyClient)
+        {
+            if (!await _clientsRepository.DoesCompanyClientExist(clientid))
+            {
+                throw new ArgumentException($"Company client with id: {clientid} does not exist");
+            }
+        }
+        else
+        {
+            if (!await _clientsRepository.DoesIndividualClientExist(clientid))
+            {
+                throw new ArgumentException($"Individual client with id: {clientid} does not exist");
+            }
+        }
+    }
+
+    private async Task DoesSoftwareExist(int softwareId)
+    {
+        if (!await _softwareRepository.DoesSoftwareExistById(softwareId))
+        {
+            throw new ArgumentException($"Software with id: {softwareId} does not exist");
+        }
     }
 
     public async Task PayForAgreemnt(int agreementId, decimal paymentValue)

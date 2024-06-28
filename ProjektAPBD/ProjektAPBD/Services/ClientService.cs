@@ -16,8 +16,9 @@ public class ClientService : IClientService
     public async Task AddIdividualClient(AddIndividualClientDTO addIndividualClientDto)
     {
         IndividualClient? individualClient = await _clientsRepository.GetIdividualClientByPesel(addIndividualClientDto.Pesel);
-        DoesClientWithGivenPeselExist(addIndividualClientDto, individualClient);
-
+        
+        await DoesClientWithGivenPeselExist(addIndividualClientDto, individualClient);
+        
         IndividualClient newIndividualClient = new IndividualClient()
         {
             Address = addIndividualClientDto.Address,
@@ -64,7 +65,6 @@ public class ClientService : IClientService
         await _clientsRepository.AddCompanyClient(newCompanyClient);
     }
     
-
     public async Task UpdateCompanyClient(int companyClientid, UpdateCompanyClientDTO updateCompanyClientDto)
     {
         CompanyClient? companyClient = await _clientsRepository.GetCompanyClientById(companyClientid);
@@ -76,9 +76,9 @@ public class ClientService : IClientService
     // ---
     public async Task DoesClientWithGivenPeselExist(AddIndividualClientDTO addIndividualClientDto, IndividualClient? client)
     {
-        if (client == null)
+        if (client != null)
         {
-            throw new Exception($"Client with given pesel: {addIndividualClientDto.Pesel} does not exist");
+            throw new Exception($"Client with given pesel: {addIndividualClientDto.Pesel} already exist");
         }
     }
     
@@ -91,9 +91,9 @@ public class ClientService : IClientService
     }
     private void DoesCompanyWithGivenKRSExist(AddCompanyClientDTO addCompanyClientDto, CompanyClient? companyClient)
     {
-        if (companyClient == null)
+        if (companyClient != null)
         {
-            throw new Exception($"Company with given KRS: {addCompanyClientDto.KRSNumber} does not exist");
+            throw new Exception($"Company with given KRS: {addCompanyClientDto.KRSNumber} already exist");
         }
     }
     
