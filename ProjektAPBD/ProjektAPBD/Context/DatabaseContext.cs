@@ -13,7 +13,7 @@ public class DatabaseContext : DbContext
     {
     }
 
-    public DbSet<AppUser> AppUsers { get; set; }
+    public DbSet<User> Users { get; set; }
     public DbSet<CompanyClient> CompanyClients { get; set; }
     public DbSet<IndividualClient> IndividualClients { get; set; }
     public DbSet<SoftwareCategory> SoftwareCategories { get; set; }
@@ -26,13 +26,6 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        // modelBuilder.Entity<AppUser>().HasData(new List<AppUser>
-        // {
-        //     new AppUser() {
-        //         
-        //     }
-        // });
         
         modelBuilder.Entity<CompanyClient>().HasData(new List<CompanyClient>
         {

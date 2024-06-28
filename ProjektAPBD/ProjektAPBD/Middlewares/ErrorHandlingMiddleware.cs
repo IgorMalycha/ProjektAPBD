@@ -17,15 +17,13 @@ public class ErrorHandlingMiddleware
     {
         try
         {
-            // Call the next middleware in the pipeline
             await _next(context);
         }
         catch (Exception ex)
         {
-            // Log the exception
-            _logger.LogError(ex, "An unhandled exception occurred");
 
-            // Handle the exception
+            _logger.LogError(ex, "An unhandled exception occurred");
+            
             await HandleExceptionAsync(context, ex);
         }
     }

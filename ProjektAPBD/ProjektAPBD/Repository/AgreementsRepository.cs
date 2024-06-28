@@ -16,6 +16,7 @@ public class AgreementsRepository : IAgreementsRepository
     public async Task AddNewAgreement(Agreement newAgreement)
     {
         await _databaseContext.Agreements.AddAsync(newAgreement);
+        await _databaseContext.SaveChangesAsync();
     }
 
     public async Task<bool> IsThereAlreadyAgreementOnSoftware(Software software, int clientid, bool isCompanyClient)

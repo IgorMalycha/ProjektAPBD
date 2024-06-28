@@ -166,8 +166,13 @@ public class AgreementService : IAgreementService
     private async Task<decimal> GetPriceAfterDiscount(decimal softwarePrice, List<Discount> availableDiscounts)
     {
         decimal newPrice = softwarePrice;
+
+        if (availableDiscounts.Count == 0)
+        {
+            return newPrice;
+        }
         int maxDiscount = availableDiscounts.Max(e => e.Value);
 
-        return (newPrice * (maxDiscount / 100));
+        return (softwarePrice - newPrice * maxDiscount / 100);
     }
 }

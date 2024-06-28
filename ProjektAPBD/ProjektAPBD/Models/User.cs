@@ -2,7 +2,7 @@
 
 namespace ProjektAPBD.Models;
 
-public class AppUser
+public class User
 {
     [Key]
     public int IdUser { get; set; }
