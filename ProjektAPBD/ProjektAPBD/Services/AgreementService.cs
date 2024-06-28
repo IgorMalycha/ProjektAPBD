@@ -100,7 +100,7 @@ public class AgreementService : IAgreementService
         }
     }
 
-    public async Task PayForAgreemnt(int agreementId, decimal paymentValue)
+    public async Task<OutputPaymentDTO> PayForAgreemnt(int agreementId, decimal paymentValue)
     {
         await DoesAgreementExist(agreementId);
         
@@ -111,8 +111,14 @@ public class AgreementService : IAgreementService
         await IsPaymentInTime(agreement);
 
         await _agreementsRepository.AddPayment(agreement, paymentValue);
-
+        
         await IsWholePricePaid(agreement);
+        
+        return new OutputPaymentDTO()
+        {
+            AlreadyPaid = agreement.Payment,
+            Price = agreement.Price
+        };
     }
 
     private async Task IsWholePricePaid(Agreement agreement)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using ProjektAPBD.Services;
 
@@ -16,6 +17,8 @@ public class RevenueController : ControllerBase
         _agreementService = agreementService;
     }
 
+    // nie dziala na swaggerze
+    // [Authorize]
     [HttpGet("company")]
     public async Task<IActionResult> GetCompanyRevenue([FromQuery] bool estimatedRevenue)
     {
@@ -24,6 +27,8 @@ public class RevenueController : ControllerBase
         return Ok(result);
     }
     
+    // nie dziala na swaggerze
+    // [Authorize]
     [HttpGet("product/{productId}")]
     public async Task<IActionResult> GetProductRevenue(int productId, [FromQuery] bool estimatedRevenue)
     {

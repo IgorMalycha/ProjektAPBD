@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjektAPBD.DTOs.AgreementDTOs;
 using ProjektAPBD.Services;
 
@@ -15,22 +16,24 @@ public class AgreementController : ControllerBase
         _agreementService = agreementService;
     }
 
-
+    // nie dziala na swaggerze
+    // [Authorize]
     [HttpPost]
     public async Task<IActionResult> AddNewAgreement(AddAgreementDTO addAgreementDto)
     {
-        //output 
+
         await _agreementService.MakeNewAgreement(addAgreementDto);
-            
-
-        return Created();
+        
+        return Created("api/agreement", addAgreementDto);
     }
-
+    
+    // nie dziala na swaggerze
+    // [Authorize]
     [HttpPut("{agreementId}/payment")]
-    public async Task<IActionResult> PaymentForAgreement(int agreemntId, [FromQuery]decimal paymentValue)
+    public async Task<IActionResult> PaymentForAgreement(int agreementId, [FromQuery]decimal paymentValue)
     {
-        await _agreementService.PayForAgreemnt(agreemntId ,paymentValue);
+        var result = await _agreementService.PayForAgreemnt(agreementId ,paymentValue);
 
-        return NoContent();
+        return Ok(result);
     }
 }

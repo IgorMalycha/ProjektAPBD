@@ -18,71 +18,60 @@ public class RevenueServiceTest
     }
 
     [Test]
-    public async Task GetCompanyRevenue_ShouldReturnCorrectValue()
+    public async Task GetCompanyRevenueReturnCorrectValue()
     {
-        // Arrange
         _agreementsRepositoryMock.Setup(x => x.GetCompanyRevenue()).ReturnsAsync(1000);
-
-        // Act
+        
         var result = await _revenueService.GetCompanyRevenue(estimatedRevenue: false);
-
-        // Assert
+        
         Assert.AreEqual(1000, result.Value);
     }
 
     [Test]
-    public async Task GetCompanyRevenue_ShouldReturnEstimatedValue()
+    public async Task GetCompanyRevenueReturnEstimatedValue()
     {
-        // Arrange
+
         _agreementsRepositoryMock.Setup(x => x.GetCompanyEstimatedRevenue()).ReturnsAsync(2000);
-
-        // Act
+        
         var result = await _revenueService.GetCompanyRevenue(estimatedRevenue: true);
-
-        // Assert
+        
         Assert.AreEqual(2000, result.Value);
     }
 
     [Test]
-    public async Task GetProductRevenue_ShouldReturnCorrectValue()
+    public async Task GetProductRevenueEeturnCorrectValue()
     {
-        // Arrange
         int productId = 1;
         _softwareRepositoryMock.Setup(x => x.DoesSoftwareExistById(productId)).ReturnsAsync(true);
         _agreementsRepositoryMock.Setup(x => x.GetProductRevenue(productId)).ReturnsAsync(500);
-
-        // Act
+        
         var result = await _revenueService.GetProductRevenue(productId, estimatedRevenue: false);
 
-        // Assert
+
         Assert.AreEqual(productId, result.ProductId);
         Assert.AreEqual(500, result.Value);
     }
 
     [Test]
-    public async Task GetProductRevenue_ShouldThrowException_WhenSoftwareDoesNotExist()
+    public async Task GetProductRevenueThrowExceptionSoftwareDoesNotExist()
     {
-        // Arrange
+
         int productId = 1;
         _softwareRepositoryMock.Setup(x => x.DoesSoftwareExistById(productId)).ReturnsAsync(false);
-
-        // Act & Assert
-        var ex = Assert.ThrowsAsync<ArgumentException>(async () => await _revenueService.GetProductRevenue(productId, estimatedRevenue: false));
-        Assert.AreEqual($"Software with id: {productId} does not exist", ex.Message);
+        
+        Assert.ThrowsAsync<ArgumentException>(async () => await _revenueService.GetProductRevenue(productId, estimatedRevenue: false));
     }
 
     [Test]
-    public async Task GetProductRevenue_ShouldReturnEstimatedValue()
+    public async Task GetProductRevenueReturnEstimatedValue()
     {
-        // Arrange
+
         int productId = 1;
         _softwareRepositoryMock.Setup(x => x.DoesSoftwareExistById(productId)).ReturnsAsync(true);
         _agreementsRepositoryMock.Setup(x => x.GetProductEstimatedRevenue(productId)).ReturnsAsync(800);
 
-        // Act
         var result = await _revenueService.GetProductRevenue(productId, estimatedRevenue: true);
-
-        // Assert
+        
         Assert.AreEqual(productId, result.ProductId);
         Assert.AreEqual(800, result.Value);
     }

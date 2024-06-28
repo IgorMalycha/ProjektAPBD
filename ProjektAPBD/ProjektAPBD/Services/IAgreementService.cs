@@ -6,5 +6,5 @@ public interface IAgreementService
 {
 
     Task MakeNewAgreement(AddAgreementDTO addAgreementDto);
-    Task PayForAgreemnt(int agreemntId, decimal paymentValue);
+    Task<OutputPaymentDTO> PayForAgreemnt(int agreemntId, decimal paymentValue);
 }

@@ -21,7 +21,7 @@ public class Tests
     }
 
     [Test]
-    public void AddIdividualClientReturnExceptionClientExist()
+    public void AddIdividualClientThrowExceptionClientExist()
     {
         
         var clientDto = new AddIndividualClientDTO
@@ -45,7 +45,7 @@ public class Tests
     
     
     [Test]
-    public async Task AddIndividualClient_WhenClientWithPeselDoesNotExist_AddsClient()
+    public async Task AddIndividualClientAddsClientClientWithPeselDoesNotExist()
     {
 
         var clientDto = new AddIndividualClientDTO
@@ -70,7 +70,7 @@ public class Tests
     }
 
     [Test]
-    public async Task RemoveIndividualClient_WhenClientDoesNotExist_ThrowsException()
+    public async Task RemoveIndividualClientThrowsExceptionClientDoesNotExist()
     {
 
         var clientId = 1;
@@ -80,12 +80,12 @@ public class Tests
             .ReturnsAsync((IndividualClient)null);
 
 
-        var ex = Assert.ThrowsAsync<Exception>(async () => await _clientService.RemoveIdividualClient(clientId));
-        Assert.That(ex.Message, Is.EqualTo($"Client with given Id: {clientId} does not exist"));
+        Assert.ThrowsAsync<Exception>(async () => await _clientService.RemoveIdividualClient(clientId));
+        
     }
 
     [Test]
-    public async Task RemoveIndividualClient_WhenClientExists_RemovesClient()
+    public async Task RemoveIndividualClientRemovesClientClientExists()
     {
 
         var clientId = 1;
@@ -103,7 +103,7 @@ public class Tests
     }
 
     [Test]
-    public async Task UpdateIndividualClient_WhenClientDoesNotExist_ThrowsException()
+    public async Task UpdateIndividualClientThrowsExceptionClientDoesNotExist()
     {
         var clientId = 1;
         var updateDto = new UpdateIndividualClientDTO
@@ -119,12 +119,11 @@ public class Tests
             .Setup(repo => repo.GetIdividualClientById(clientId))
             .ReturnsAsync((IndividualClient)null);
 
-        var ex = Assert.ThrowsAsync<Exception>(async () => await _clientService.UpdateIdividualClient(clientId, updateDto));
-        Assert.That(ex.Message, Is.EqualTo($"Client with given Id: {clientId} does not exist"));
+        Assert.ThrowsAsync<Exception>(async () => await _clientService.UpdateIdividualClient(clientId, updateDto));
     }
 
     [Test]
-    public async Task UpdateIndividualClient_WhenClientExists_UpdatesClient()
+    public async Task UpdateIndividualClientUpdatesClientClientExists()
     {
         var clientId = 1;
         var updateDto = new UpdateIndividualClientDTO

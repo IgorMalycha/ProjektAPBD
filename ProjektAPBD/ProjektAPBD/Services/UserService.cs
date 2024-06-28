@@ -22,7 +22,7 @@ public class UserService : IUserService
     {
         var hashedPasswordAndSalt = SecurityHelper.GetHashedPasswordAndSalt(requestDto.Password);
 
-        await DoesLoginExist(requestDto.Login);
+        await IsLoginUsed(requestDto.Login);
         
         var newUser = new User()
         {
@@ -34,7 +34,6 @@ public class UserService : IUserService
         };
 
         await _userRepository.AddUser(newUser);
-
     }
 
     public async Task<UserOutputDTO> LoginUser(LoginRequestDTO loginRequestDto)
@@ -51,15 +50,27 @@ public class UserService : IUserService
             throw new UnauthorizedAccessException("Wrong password");
         }
         
-        Claim[] userclaim = new[]
+        Claim[] userclaim;
+        
+        //by zalogować się jako admin: login- "Igor" haslo= "Igor"
+        if(user.IdUser == 1){
+            userclaim = new[]
+            {
+                new Claim(ClaimTypes.Name, "igorAdmin"),
+                new Claim(ClaimTypes.Role, "user"),
+                new Claim(ClaimTypes.Role, "admin")
+            };
+        }
+        else
         {
-            new Claim(ClaimTypes.Name, "IgorAdmin"),
-            new Claim(ClaimTypes.Role, "user"),
-            new Claim(ClaimTypes.Role, "admin")
-            
-        };
+            userclaim = new[]
+            {
+                new Claim(ClaimTypes.Name, "regularUser"),
+                new Claim(ClaimTypes.Role, "user")
+            }; 
+        }
 
-        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretKey"));
+        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretKeyyyyyyyyyyyyyyyyyyyyyyyyy"));
 
         SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -76,7 +87,7 @@ public class UserService : IUserService
         
         return new UserOutputDTO()
         {
-            Token = token,
+            Token = new JwtSecurityTokenHandler().WriteToken(token),
             RefreshToken = newRefreshToken
         };
     }
@@ -89,14 +100,27 @@ public class UserService : IUserService
 
         await IsRefreshTokenExpLessThanActualDate(user);
         
-        Claim[] userclaim = new[]
+        Claim[] userclaim;
+        
+        //by zalogować się jako admin: login- "Igor" haslo= "Igor"
+        if(user.IdUser == 1){
+            userclaim = new[]
+            {
+                new Claim(ClaimTypes.Name, "igorAdmin"),
+                new Claim(ClaimTypes.Role, "user"),
+                new Claim(ClaimTypes.Role, "admin")
+            };
+        }
+        else
         {
-            new Claim(ClaimTypes.Name, "igorAdmin"),
-            new Claim(ClaimTypes.Role, "user"),
-            new Claim(ClaimTypes.Role, "admin")
-        };
+            userclaim = new[]
+            {
+                new Claim(ClaimTypes.Name, "regularUser"),
+                new Claim(ClaimTypes.Role, "user")
+            }; 
+        }
 
-        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretKey"));
+        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secretKeyyyyyyyyyyyyyyyyyyyyyyyyy"));
 
         SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -112,7 +136,7 @@ public class UserService : IUserService
 
         return new UserOutputDTO()
         {
-            Token = jwtToken,
+            Token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
             RefreshToken = refreshToken
         };
     }
@@ -133,11 +157,19 @@ public class UserService : IUserService
         }
     }
 
-    private async Task DoesLoginExist(string requestDtoLogin)
+    private async Task IsLoginUsed(string requestDtoLogin)
     {
         if (await _userRepository.DoesLoginExist(requestDtoLogin))
         {
             throw new ArgumentException($"Login: {requestDtoLogin} already exists");
+        }
+    }
+    
+    private async Task DoesLoginExist(string requestDtoLogin)
+    {
+        if (!await _userRepository.DoesLoginExist(requestDtoLogin))
+        {
+            throw new ArgumentException($"Login: {requestDtoLogin} does not exists");
         }
     }
 }

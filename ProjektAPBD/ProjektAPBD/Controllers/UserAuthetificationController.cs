@@ -8,7 +8,7 @@ using ProjektAPBD.Services;
 
 namespace ProjektAPBD.Controllers;
 
-[Route("api/authetiication")]
+[Route("api/authetification")]
 [ApiController]
 public class UserAuthetificationController : ControllerBase
 {
@@ -39,7 +39,8 @@ public class UserAuthetificationController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize(AuthenticationSchemes = "IgnoreTokenExpirationScheme")]
+    // nie dziala na swaggerze
+    // [Authorize(AuthenticationSchemes = "IgnoreTokenExpirationScheme")]
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(RefreshTokenRequestDTO refreshToken)
     {

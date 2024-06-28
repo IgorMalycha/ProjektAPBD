@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProjektAPBD.DTOs;
 using ProjektAPBD.Services;
 
@@ -14,7 +15,9 @@ public class ClientController : ControllerBase
     {
         _clientService = clientService;
     }
-
+    
+    // nie dziala na swaggerze
+    // [Authorize]
     [HttpPost("individualClient")]
     public async Task<IActionResult> AddIndividualClient([FromBody] AddIndividualClientDTO addIndividualClientDto)
     {
@@ -23,6 +26,8 @@ public class ClientController : ControllerBase
         return Created();
     }
     
+    // nie dziala na swaggerze
+    // [Authorize(Roles = "admin")]
     [HttpDelete("individualClient/{individualClientid:int}")]
     public async Task<IActionResult> RemoveIndividualClient(int individualClientid)
     {
@@ -31,6 +36,8 @@ public class ClientController : ControllerBase
         return NoContent();
     }
     
+    // nie dziala na swaggerze
+    // [Authorize(Roles = "admin")]
     [HttpPut("individualClient/{individualClientid:int}")]
     public async Task<IActionResult> UpdateIndividualClient(int individualClientid, [FromBody] UpdateIndividualClientDTO updateIndividualClientDto)
     {
@@ -39,6 +46,8 @@ public class ClientController : ControllerBase
         return NoContent();
     }
     
+    // nie dziala na swaggerze
+    // [Authorize]
     [HttpPost("companyClient")]
     public async Task<IActionResult> AddCompanyClient([FromBody] AddCompanyClientDTO addCompanyClientDto)
     {
@@ -47,6 +56,8 @@ public class ClientController : ControllerBase
         return Created();
     }
     
+    // nie dziala na swaggerze
+    // [Authorize(Roles = "admin")]
     [HttpPut("companyClient/{companyClientid:int}")]
     public async Task<IActionResult> UpdateCompanyClient(int companyClientid, [FromBody] UpdateCompanyClientDTO updateCompanyClientDto)
     {
