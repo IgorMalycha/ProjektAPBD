@@ -1,4 +1,4 @@
-# Revenue Recognition:
+# Revenue Recognition
 
 This project implements a Revenue Recognition System using C# and ASP.NET in a REST API architecture, following the MVC pattern. The system addresses problem of recognizing revenue for product (software) purchases and services (software subscriptions), ensuring that revenue is recorded correctly according to applicable regulations and business standards.
 
